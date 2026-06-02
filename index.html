@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人作品集 | 李茹汾's Portfolio</title>
+    <style>
+        /* ============================================================
+           🌗 CSS 变量：浅色 / 深色 双主题
+           ============================================================ */
+        :root {
+            --bg: #F2F5EE;
+            --bg-card: #FAFAF8;
+            --bg-card-hover: #F6F3EF;
+            --text: #3B3F3C;
+            --text-secondary: #6B726B;
+            --text-muted: #949C94;
+            --primary: #7A9A7E;
+            --primary-dark: #5D7A61;
+            --primary-light: #B8D0BA;
+            --accent: #E8B298;
+            --accent-dark: #D49A7A;
+            --accent-light: #F5D8C6;
+            --border: #E0E5DC;
+            --border-light: #EEF0EA;
+            --shadow: 0 2px 8px rgba(90,100,85,0.06);
+            --shadow-lg: 0 8px 32px rgba(90,100,85,0.08);
+            --glass-bg: rgba(250,250,248,0.72);
+            --glass-border: rgba(200,208,195,0.3);
+            --tag-bg: #ECF0E8;
+            --tag-text: #5D7A61;
+            --tab-inactive: #C8D2C4;
+            --badge-bg: #F5D8C6;
+            --badge-text: #C08065;
+            --hero-gradient: linear-gradient(135deg, #7A9A7E 0%, #8DB08E 40%, #9BBE9C 100%);
+            --placeholder-bg: #EAEDE4;
+            --placeholder-border: #D5DBD1;
+            --divider: #E8ECE5;
+            --scrollbar-thumb: #C5CDC2;
+            --scrollbar-track: #F2F5EE;
+        }
+
+        [data-theme="dark"] {
+            --bg: #1E2A24;
+            --bg-card: #2A3630;
+            --bg-card-hover: #303D35;
+            --text: #E0E4DE;
+            --text-secondary: #B0B8AE;
+            --text-muted: #808A7E;
+            --primary: #8DB896;
+            --primary-dark: #6E9A78;
+            --primary-light: #5A7D64;
+            --accent: #E8B298;
+            --accent-dark: #C88A6E;
+            --accent-light: #5C3E30;
+            --border: #3A4840;
+            --border-light: #344038;
+            --shadow: 0 2px 8px rgba(0,0,0,0.2);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.3);
+            --glass-bg: rgba(42,54,48,0.78);
+            --glass-border: rgba(70,85,76,0.4);
+            --tag-bg: #364538;
+            --tag-text: #8DB896;
+            --tab-inactive: #5A6C5E;
+            --badge-bg: #4C3630;
+            --badge-text: #E8B298;
+            --hero-gradient: linear-gradient(135deg, #3D5542 0%, #4C6A50 40%, #547058 100%);
+            --placeholder-bg: #303D35;
+            --placeholder-border: #4A5448;
+            --divider: #364338;
+            --scrollbar-thumb: #445A4B;
+            --scrollbar-track: #1E2A24;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            transition: background-color 0.35s ease, color 0.35s ease;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { display: block; max-width: 100%; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+        /* ============================================================
+           导航栏
+           ============================================================ */
+        .site-header {
+            position: sticky; top: 0; z-index: 1000;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            background: var(--glass-bg);
+            border-bottom: 1px solid var(--glass-border);
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+        .nav-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 58px; }
+        .nav-brand { font-size: 18px; font-weight: 700; color: var(--primary); }
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
+        .nav-links { display: flex; gap: 6px; }
+        .nav-links a { padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: all 0.25s ease; }
+        .nav-links a:hover { color: var(--primary); background: var(--tag-bg); }
+        .theme-toggle {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 1.5px solid var(--border); background: var(--bg-card);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 17px; color: var(--text-secondary); transition: all 0.3s ease; flex-shrink: 0;
+        }
+        .theme-toggle:hover { border-color: var(--primary); color: var(--primary); transform: rotate(15deg); }
+
+        /* ============================================================
+           Hero
+           ============================================================ */
+        .hero-section {
+            background: var(--hero-gradient); color: #fff; text-align: center;
+            padding: 64px 24px 56px; position: relative; overflow: hidden;
+        }
+        .hero-section::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px;
+            background: linear-gradient(to top, var(--bg), transparent);
+        }
+        .hero-avatar {
+            width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.25);
+            margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 36px; backdrop-filter: blur(4px); border: 3px solid rgba(255,255,255,0.3);
+        }
+        .hero-section h1 { font-size: 32px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .hero-section .hero-subtitle { font-size: 16px; opacity: 0.88; margin-bottom: 4px; }
+        .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 16px; }
+        .hero-tags span { padding: 5px 16px; border-radius: 20px; background: rgba(255,255,255,0.18); backdrop-filter: blur(4px); font-size: 13px; font-weight: 500; }
+
+        /* ============================================================
+           主体
+           ============================================================ */
+        .page-main { max-width: 1200px; margin: 40px auto; padding: 0 24px; }
+
+        /* ============================================================
+           项目卡片
+           ============================================================ */
+        .project-card {
+            background: var(--bg-card); border-radius: 16px;
+            box-shadow: var(--shadow); border: 1px solid var(--border-light);
+            padding: 36px 32px; margin-bottom: 32px;
+            transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        .project-tag {
+            display: inline-block; background: var(--tag-bg); color: var(--tag-text);
+            padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            letter-spacing: 0.6px; margin-bottom: 12px;
+        }
+        .project-card h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+        .project-meta { font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px; }
+        .project-card > p { font-size: 14.5px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.8; }
+        .project-card > .tab-nav { margin-top: 0; }
+
+        /* ============================================================
+           Tab 切换
+           ============================================================ */
+        .tab-nav {
+            display: flex; gap: 4px; margin-bottom: 24px;
+            border-bottom: 2px solid var(--border-light); padding-bottom: 0;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        .tab-btn {
+            padding: 9px 20px; border: none; background: none;
+            font-size: 14px; font-weight: 600; color: var(--tab-inactive);
+            cursor: pointer; border-radius: 8px 8px 0 0;
+            transition: all 0.25s ease; white-space: nowrap;
+            position: relative; bottom: -2px; border-bottom: 2px solid transparent;
+        }
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ============================================================
+           图片网格
+           ============================================================ */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .img-card {
+            background: var(--bg-card); border-radius: 12px;
+            border: 1.5px solid var(--border-light); overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            cursor: pointer; position: relative;
+        }
+        .img-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+        .img-card .main-badge {
+            position: absolute; top: 10px; right: 10px; z-index: 2;
+            background: var(--badge-bg); color: var(--badge-text);
+            font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 12px;
+        }
+        .img-card a {
+            display: flex; align-items: center; justify-content: center;
+            padding: 14px; background: #f9faf7; min-height: 240px;
+        }
+        [data-theme="dark"] .img-card a { background: #323C35; }
+        .img-card img { width: 100%; height: 220px; object-fit: contain; transition: transform 0.35s ease; }
+        .img-card:hover img { transform: scale(1.03); }
+        .img-caption {
+            font-size: 12px; text-align: center; padding: 9px 6px;
+            color: var(--text-muted); border-top: 1px solid var(--border-light);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* ============================================================
+           视频网格
+           ============================================================ */
+        .video-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; margin-top: 20px;
+        }
+        .video-item { background: #000; border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; }
+        .video-item video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .placeholder-box {
+            background: var(--placeholder-bg); border: 2px dashed var(--placeholder-border);
+            border-radius: 12px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            aspect-ratio: 16 / 9; color: var(--text-muted); gap: 10px;
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+        .placeholder-icon { font-size: 32px; opacity: 0.5; }
+        .placeholder-text { font-size: 13px; font-weight: 500; }
+
+        /* ============================================================
+           数据分析
+           ============================================================ */
+        .data-summary { display: flex; flex-wrap: wrap; gap: 18px; margin-bottom: 20px; }
+        .data-finding {
+            flex: 1 1 220px; background: var(--tag-bg); border-radius: 12px;
+            padding: 18px; border: 1px solid var(--border-light);
+        }
+        .data-finding .finding-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); margin-bottom: 6px; }
+        .data-finding .finding-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
+        .chart-preview-row { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 22px; }
+        .chart-preview-row > .chart-mini { flex: 1 1 340px; min-height: 320px; }
+
+        .collapse-toggle {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 22px; border: 1.5px solid var(--primary);
+            background: transparent; color: var(--primary);
+            font-size: 14px; font-weight: 600; border-radius: 24px;
+            cursor: pointer; transition: all 0.25s ease; margin-top: 8px;
+        }
+        .collapse-toggle:hover { background: var(--primary); color: #fff; }
+        .collapse-toggle .arrow { transition: transform 0.3s ease; display: inline-block; }
+        .collapse-toggle.open .arrow { transform: rotate(180deg); }
+        .collapse-content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0,1,0,1); }
+        .collapse-content.expanded { max-height: none; }
+
+        .analysis-section h4 { font-size: 17px; color: var(--text); margin-bottom: 10px; }
+        .analysis-section h5 { font-size: 14px; color: var(--text-secondary); margin: 16px 0 8px; }
+        .analysis-section .output-pre {
+            background: var(--placeholder-bg); border-radius: 10px;
+            padding: 16px 20px; font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Menlo', monospace;
+            font-size: 13px; line-height: 1.6; overflow-x: auto;
+            color: var(--text-secondary); margin: 10px 0; white-space: pre;
+            transition: background 0.35s ease;
+        }
+
+        /* ============================================================
+           品牌策划
+           ============================================================ */
+        .brand-row { display: flex; flex-wrap: wrap; background: var(--tag-bg); border: 1px solid var(--border-light); border-radius: 14px; overflow: hidden; margin: 20px 0; }
+        .brand-image-panel { flex: 1 1 250px; background: var(--placeholder-bg); display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .brand-image-panel img { max-width: 100%; max-height: 260px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .brand-text-panel { flex: 2 1 350px; padding: 28px; display: flex; flex-direction: column; justify-content: center; }
+        .brand-text-panel h4 { font-size: 16px; color: var(--text); margin-bottom: 14px; }
+        .brand-text-panel ul { list-style: none; font-size: 14px; color: var(--text-secondary); line-height: 2; }
+        .brand-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 11px 22px; border-radius: 10px; font-weight: 600; font-size: 14px;
+            transition: all 0.25s ease; cursor: pointer;
+        }
+        .btn-primary { background: var(--primary); color: #fff; border: none; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(122,154,126,0.35); }
+        .btn-outline { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: #fff; }
+
+        /* ============================================================
+           页脚
+           ============================================================ */
+        .site-footer { text-align: center; padding: 28px 24px; color: var(--text-muted); font-size: 13px; margin-top: 48px; border-top: 1px solid var(--divider); }
+
+        /* ============================================================
+           响应式
+           ============================================================ */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-section h1 { font-size: 26px; }
+            .project-card { padding: 24px 18px; }
+            .image-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+            .img-card a { min-height: 180px; }
+            .img-card img { height: 160px; }
+            .chart-preview-row > .chart-mini { min-height: 260px; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="nav-wrapper">
+        <div class="nav-brand">🌸 Portfolio</div>
+        <div class="nav-actions">
+            <div class="nav-links">
+                <a href="#project1">慢友康</a>
+                <a href="#project2">视频剪辑</a>
+                <a href="#project3">品牌策划</a>
+                <a href="#project4">数据分析</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="切换深色模式" title="切换深色模式">🌙</button>
+        </div>
+    </div>
+</header>
+
+<section class="hero-section">
+    <div class="hero-avatar">👩‍💻</div>
+    <h1>你好，我是李茹汾</h1>
+    <p class="hero-subtitle">网络与新媒体专业</p>
+    <p class="hero-subtitle">意向职位：产品经理实习生 · 数据分析 · 运营</p>
+    <div class="hero-tags">
+        <span>📐 产品设计</span>
+        <span>📊 数据分析</span>
+        <span>🎬 视频剪辑</span>
+        <span>📝 品牌策划</span>
+    </div>
+</section>
+
+<main class="page-main">
+
+    <!-- ========== 项目1：交互设计 ========== -->
+    <section id="project1" class="project-card">
+        <span class="project-tag">产品原型 / 交互设计</span>
+        <h2>交互设计作品集</h2>
+        <div class="project-meta">慢友康：前期调研 · 页面敲定 · 50%高保真设计 · 90%交互逻辑链路构建<br>Nexus：高保真交互原型 · 引导页 · 登录注册 · 首页 · 消息详情</div>
+        <p>涵盖两款产品的交互设计方案。点击下方顶层 Tab 切换项目，再使用子 Tab 浏览具体页面。带有 <span class="main-badge" style="position:static;display:inline-block;vertical-align:middle;">主功能</span> 标签的为核心页面。</p>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="tab-mykk">📱 慢友康 · 慢性病管理</button>
+            <button class="tab-btn" data-tab="tab-nexus">📐 Nexus · 高保真设计</button>
+        </nav>
+
+        <!-- ===== 慢友康 ===== -->
+        <div class="tab-panel active" id="tab-mykk">
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="tab-home">🏠 首页 & 健康服务</button>
+                <button class="tab-btn" data-tab="tab-login">🔑 登录</button>
+                <button class="tab-btn" data-tab="tab-message">💬 消息</button>
+                <button class="tab-btn" data-tab="tab-community">👥 社区</button>
+                <button class="tab-btn" data-tab="tab-settings">⚙️ 设置</button>
+            </nav>
+
+            <div class="tab-panel active" id="tab-home">
+                <div class="image-grid">
+                    <div class="img-card"><span class="main-badge">主功能</span><a href="交互设计/慢友康/1(1).png" target="_blank"><img src="交互设计/慢友康/1(1).png" alt="首页主页面" loading="lazy"></a><div class="img-caption">首页 · 主功能页</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/5.png" target="_blank"><img src="交互设计/慢友康/5.png" alt="健康百科" loading="lazy"></a><div class="img-caption">健康百科</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/6.png" target="_blank"><img src="交互设计/慢友康/6.png" alt="健康百科" loading="lazy"></a><div class="img-caption">健康百科</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/7.png" target="_blank"><img src="交互设计/慢友康/7.png" alt="处方" loading="lazy"></a><div class="img-caption">处方</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/8.png" target="_blank"><img src="交互设计/慢友康/8.png" alt="处方" loading="lazy"></a><div class="img-caption">处方</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/9.png" target="_blank"><img src="交互设计/慢友康/9.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/10.png" target="_blank"><img src="交互设计/慢友康/10.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/11.png" target="_blank"><img src="交互设计/慢友康/11.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/12.png" target="_blank"><img src="交互设计/慢友康/12.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/13.png" target="_blank"><img src="交互设计/慢友康/13.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/14.png" target="_blank"><img src="交互设计/慢友康/14.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/15.png" target="_blank"><img src="交互设计/慢友康/15.png" alt="血压" loading="lazy"></a><div class="img-caption">血压</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/16.png" target="_blank"><img src="交互设计/慢友康/16.png" alt="血糖" loading="lazy"></a><div class="img-caption">血糖</div></div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-login">
+                <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:16px;">慢友康支持的四种登录方式：</p>
+                <div class="image-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                    <div class="img-card"><a href="交互设计/慢友康/1.png" target="_blank"><img src="交互设计/慢友康/1.png" alt="账号密码登录" loading="lazy"></a><div class="img-caption">账号密码登录</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/2.png" target="_blank"><img src="交互设计/慢友康/2.png" alt="手机号登录" loading="lazy"></a><div class="img-caption">手机号登录</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/3.png" target="_blank"><img src="交互设计/慢友康/3.png" alt="微信登录" loading="lazy"></a><div class="img-caption">微信登录</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/4.png" target="_blank"><img src="交互设计/慢友康/4.png" alt="QQ登录" loading="lazy"></a><div class="img-caption">QQ登录</div></div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-message">
+                <div class="image-grid">
+                    <div class="img-card"><span class="main-badge">主功能</span><a href="交互设计/慢友康/17.png" target="_blank"><img src="交互设计/慢友康/17.png" alt="消息主页面" loading="lazy"></a><div class="img-caption">消息 · 主功能页</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/18(2).png" target="_blank"><img src="交互设计/慢友康/18(2).png" alt="消息详细" loading="lazy"></a><div class="img-caption">消息详细</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/19.png" target="_blank"><img src="交互设计/慢友康/19.png" alt="消息" loading="lazy"></a><div class="img-caption">消息</div></div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-community">
+                <div class="image-grid">
+                    <div class="img-card"><span class="main-badge">主功能</span><a href="交互设计/慢友康/20.png" target="_blank"><img src="交互设计/慢友康/20.png" alt="社区主页面" loading="lazy"></a><div class="img-caption">社区 · 主功能页</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/21.png" target="_blank"><img src="交互设计/慢友康/21.png" alt="社区" loading="lazy"></a><div class="img-caption">社区</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/24.png" target="_blank"><img src="交互设计/慢友康/24.png" alt="社区" loading="lazy"></a><div class="img-caption">社区</div></div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-settings">
+                <div class="image-grid">
+                    <div class="img-card"><span class="main-badge">主功能</span><a href="交互设计/慢友康/22.png" target="_blank"><img src="交互设计/慢友康/22.png" alt="设置主页面" loading="lazy"></a><div class="img-caption">设置 · 主功能页</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/23.png" target="_blank"><img src="交互设计/慢友康/23.png" alt="设置" loading="lazy"></a><div class="img-caption">设置</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/25.png" target="_blank"><img src="交互设计/慢友康/25.png" alt="设置" loading="lazy"></a><div class="img-caption">设置</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/26.png" target="_blank"><img src="交互设计/慢友康/26.png" alt="设置" loading="lazy"></a><div class="img-caption">设置</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/27.png" target="_blank"><img src="交互设计/慢友康/27.png" alt="设置" loading="lazy"></a><div class="img-caption">设置</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/设置.png" target="_blank"><img src="交互设计/慢友康/设置.png" alt="设置" loading="lazy"></a><div class="img-caption">设置</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Nexus ===== -->
+        <div class="tab-panel" id="tab-nexus">
+            <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.8;">
+                Nexus 是一款社交类应用的高保真交互原型设计，涵盖从引导、登录到核心功能页面的完整用户体验流程。
+            </p>
+            <div class="image-grid" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));">
+                <div class="img-card"><a href="交互设计/Nexus/引导页.png" target="_blank"><img src="交互设计/Nexus/引导页.png" alt="引导页" loading="lazy"></a><div class="img-caption">引导页</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/登录页.png" target="_blank"><img src="交互设计/Nexus/登录页.png" alt="登录页" loading="lazy"></a><div class="img-caption">登录页</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/首页.png" target="_blank"><img src="交互设计/Nexus/首页.png" alt="首页" loading="lazy"></a><div class="img-caption">首页</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/消息.png" target="_blank"><img src="交互设计/Nexus/消息.png" alt="消息" loading="lazy"></a><div class="img-caption">消息</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/消息详细页.png" target="_blank"><img src="交互设计/Nexus/消息详细页.png" alt="消息详细页" loading="lazy"></a><div class="img-caption">消息详细页</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/社区.png" target="_blank"><img src="交互设计/Nexus/社区.png" alt="社区" loading="lazy"></a><div class="img-caption">社区</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/好友匹配.png" target="_blank"><img src="交互设计/Nexus/好友匹配.png" alt="好友匹配" loading="lazy"></a><div class="img-caption">好友匹配</div></div>
+                <div class="img-card"><a href="交互设计/Nexus/个人中心.png" target="_blank"><img src="交互设计/Nexus/个人中心.png" alt="个人中心" loading="lazy"></a><div class="img-caption">个人中心</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 项目2：视频剪辑 ========== -->
+    <section id="project2" class="project-card">
+        <span class="project-tag">视频剪辑 / 后期制作</span>
+        <h2>短片剪辑与视觉后期作品集</h2>
+        <div class="project-meta">项目里程碑计划制定 · 脚本分镜 · 素材剪辑 · 特效包装与音效合成</div>
+        <p>主导毕业短片及多场校园大型活动宣发视频的全流程管理与后期剪辑。具备独立完成从选题、素材筛选到最终高质量交付的全链路剪辑能力。</p>
+        <div class="video-grid">
+            <div class="video-item">
+                <video controls preload="metadata">
+                    <source src="视频/《可画广告》.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+            <div class="video-item">
+                <div class="placeholder-box">
+                    <span class="placeholder-icon">🎬</span>
+                    <span class="placeholder-text">山河无恙 · 毕业短片</span>
+                    <a href="视频/山河无恙.avi" download="山河无恙.avi" style="margin-top:8px;font-size:13px;color:var(--primary);font-weight:600;text-decoration:underline;">📥 下载观看（AVI, 1.9GB）</a>
+                </div>
+            </div>
+            <div class="video-item">
+                <video controls preload="metadata">
+                    <source src="视频/城市街道.mov" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== 项目3：品牌策划 ========== -->
+    <section id="project3" class="project-card">
+        <span class="project-tag">品牌营销 / 视觉设计</span>
+        <h2>银鹭"你的随身饱盒"品牌策划案</h2>
+        <div class="project-meta">市场调研 · 人群画像 · IP角色视觉设计 · 多渠道营销闭环</div>
+        <p>主导对年轻高压群体的早八及加班痛点调研，重塑产品定位。设计了"鹭饱家族"5个核心IP形象，并规划了从线下"职场冷静舱"到线上引流的整合营销链路。</p>
+        <div class="brand-row">
+            <div class="brand-image-panel">
+                <img src="策划案/fengmian.png" alt="策划案封面" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22280%22%3E%3Crect fill=%22%23EAEDE4%22 width=%22200%22 height=%22280%22 rx=%228%22/%3E%3Ctext fill=%22%23949C94%22 font-size=%2214%22 text-anchor=%22middle%22 x=%22100%22 y=%22140%22%3EYinlu Project Cover%3C/text%3E%3C/svg%3E'">
+            </div>
+            <div class="brand-text-panel">
+                <h4>📄 策划案核心收录：</h4>
+                <ul>
+                    <li>🎯 <strong>【市场洞察】</strong> 目标用户群体的早八/加班痛点深度挖掘</li>
+                    <li>🎨 <strong>【视觉重塑】</strong> "鹭饱家族" 5 大差异化品牌 IP 角色共创</li>
+                    <li>🚀 <strong>【传播链路】</strong> 职场冷静舱（线下）+ 线上引流整合营销闭环</li>
+                </ul>
+            </div>
+        </div>
+        <div class="brand-buttons">
+            <a href="策划案/银鹭品牌策划案.pdf" target="_blank" class="btn btn-primary">🔍 在线查阅完整 PDF 策划案</a>
+            <a href="策划案/银鹭品牌策划案.pdf" download class="btn btn-outline">📥 下载策划案到本地</a>
+        </div>
+    </section>
+
+    <!-- ========== 项目4：数据分析 ========== -->
+    <section id="project4" class="project-card">
+        <span class="project-tag">数据分析 / Python · Tableau</span>
+        <h2>TravelGo 旅游电商平台用户画像与商业仪表盘分析</h2>
+        <div class="project-meta">工具栈：Python (Pandas, Matplotlib, Seaborn, Pyecharts) · Jupyter Notebook · Tableau · Excel</div>
+        <p>以 TravelGo 旅游电商平台为虚拟业务场景，通过对 1000 条用户行为数据 + 2080 条消费记录的清洗与分析，利用 Python 完成用户画像与复购率研究，并使用 Tableau 搭建商业仪表盘，实现多维数据可视化与业务洞察。</p>
+
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="tab-python">🐍 Python 分析</button>
+            <button class="tab-btn" data-tab="tab-tableau">📊 Tableau 仪表盘</button>
+        </nav>
+
+        <!-- ===== Python Tab ===== -->
+        <div class="tab-panel active" id="tab-python">
+
+            <div class="chart-preview-row">
+                <div class="chart-mini" style="display:flex;align-items:center;justify-content:center;background:var(--bg-card);border-radius:12px;border:1px solid var(--border-light);overflow:hidden;">
+                    <img src="数据分析/python_charts/coupon_distribution_chart.png" alt="优惠券各品类覆盖率统计" style="max-width:100%;max-height:320px;object-fit:contain;">
+                </div>
+                <div class="chart-mini" style="display:flex;align-items:center;justify-content:center;background:var(--bg-card);border-radius:12px;border:1px solid var(--border-light);overflow:hidden;">
+                    <img src="数据分析/python_charts/top20_pref_chart.png" alt="高消费用户内容偏好柱状图" style="max-width:100%;max-height:320px;object-fit:contain;">
+                </div>
+            </div>
+
+            <div class="data-summary">
+                <div class="data-finding"><div class="finding-label">🔑 发现一</div><div class="finding-text">机票品类复购率最高，酒店与旅游套餐复购集中在首月，后续流失明显——建议针对首月后的用户精准推送优惠券。</div></div>
+                <div class="data-finding"><div class="finding-label">🔑 发现二</div><div class="finding-text">优惠券整体覆盖率约 39%，四品类分布均匀；机票覆盖率最高达 42%，旅游套餐最低仅 35%，存在提升空间。</div></div>
+                <div class="data-finding"><div class="finding-label">🔑 发现三</div><div class="finding-text">Top 20% 高消费用户偏好集中于科技数码（50%）和美食探店（33%），建议首页推荐向此方向倾斜。</div></div>
+            </div>
+
+            <div style="text-align:center;">
+                <button class="collapse-toggle" id="analysisToggle" onclick="toggleAnalysis()">
+                    📂 展开完整分析报告 <span class="arrow">▾</span>
+                </button>
+            </div>
+
+            <div class="collapse-content" id="analysisFull">
+                <div class="analysis-section" style="border-top:1px solid var(--divider);padding-top:24px;">
+                    <h4>📋 一、背景设定</h4>
+                    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:10px;">作为 TravelGo 旅游电商平台的运营数据分析师，面临以下业务问题：</p>
+                    <ul style="font-size:14px;color:var(--text-secondary);padding-left:20px;line-height:2;">
+                        <li>用户流失加剧：近3个月高价值用户复购率下降15%</li>
+                        <li>优惠券效果存疑：市场部质疑优惠券投放是否覆盖了大部分商品</li>
+                        <li>内容策略调整：需要根据用户偏好优化APP首页内容推荐</li>
+                    </ul>
+                    <h4>📊 二、数据清洗</h4>
+                    <h5>2.1 数据基本情况</h5>
+                    <div class="output-pre">数据全部成功加载：
+用户行为数据形状： (1000, 8)
+消费记录数据形状： (2080, 7)</div>
+                    <h5>2.2 处理缺失值 & 异常值</h5>
+                    <p style="font-size:13.5px;color:var(--text-secondary);">对缺失值采用删除策略；异常点击率（>0.08）视为异常数据予以处理；消费数据去重验证。</p>
+                    <h4>📈 三、数据分析</h4>
+                    <h5>3.1 复购率数据分析</h5>
+                    <p style="font-size:13.5px;color:var(--text-secondary);">针对消费信息表中的用户编号、商品类别和消费日期进行复购率分析，发现机票品类复购率最高，酒店与旅游套餐复购集中在首月。</p>
+                    <div style="text-align:center;margin:16px 0;">
+                        <img src="数据分析/python_charts/coupon_rebuy_chart.png" alt="复购率分析图" style="max-width:100%;border-radius:10px;">
+                    </div>
+                    <h5>3.2 优惠券投放情况</h5>
+                    <div class="output-pre">--- 优惠券各品类覆盖率统计 ---
+                否    是    优惠券覆盖率
+当地玩乐     125   86  0.407583
+旅游套餐     281  152  0.351039
+机票       359  261  0.420968
+酒店       490  326  0.399510</div>
+                    <div style="text-align:center;margin:16px 0;">
+                        <img src="数据分析/python_charts/coupon_coverage_chart.png" alt="优惠券覆盖率图" style="max-width:100%;border-radius:10px;">
+                    </div>
+                    <h5>3.3 推送内容策略分析</h5>
+                    <div class="output-pre">--- 推送内容核心指标分析 ---
+内容偏好    用户数      占比
+旅行攻略    250    0.250
+科技数码    300    0.300
+美食探店    200    0.200
+运动健身    150    0.150
+文化艺术    100    0.100</div>
+                    <div style="text-align:center;margin:16px 0;">
+                        <img src="数据分析/python_charts/push_content_chart.png" alt="推送内容策略分析图" style="max-width:100%;border-radius:10px;">
+                    </div>
+                    <h5>3.4 高消费用户（Top 20%）内容偏好分析</h5>
+                    <div class="output-pre">Top 20% 高消费用户入围门槛为累计消费：800.00元，高价值用户共：141人
+
+--- Top 20% 高消费用户的内容偏好分布 ---
+   内容偏好  高价值用户数        占比
+0  旅行攻略       1  0.166667
+1  科技数码       3  0.500000
+2  美食探店       2  0.333333</div>
+                    <div style="text-align:center;margin:16px 0;">
+                        <img src="数据分析/python_charts/top20_pref_chart.png" alt="高消费用户内容偏好柱状图" style="max-width:100%;border-radius:10px;">
+                    </div>
+                    <h5 style="margin-top:20px;">🛠 Python 工具栈</h5>
+                    <p style="font-size:13.5px;color:var(--text-muted);">Pandas · Matplotlib · Seaborn · Pyecharts · Jupyter Notebook · Excel</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ===== Tableau Tab ===== -->
+        <div class="tab-panel" id="tab-tableau">
+            <h4 style="font-size:18px;color:var(--text);margin-bottom:8px;">📊 商业仪表盘搭建</h4>
+            <div class="project-meta">工具栈：Tableau Public · 数据可视化 · 仪表盘设计</div>
+            <p style="font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.8;">
+                基于 TravelGo 平台的业务数据，使用 Tableau 搭建交互式商业仪表盘，涵盖销售趋势监控、品类利润分析、用户分层看板、地域分布等核心业务模块，实现关键指标的实时追踪与多维度下钻分析。
+            </p>
+            <div class="image-grid" style="grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));">
+                <div class="img-card" style="cursor:default;">
+                    <a href="数据分析/tableau/1.png" target="_blank" style="background:#f9faf7; min-height:300px;">
+                        <img src="数据分析/tableau/1.png" alt="Tableau仪表盘一" style="height:280px;object-fit:contain;" loading="lazy">
+                    </a>
+                    <div class="img-caption">商业仪表盘 · 数据总览</div>
+                </div>
+                <div class="img-card" style="cursor:default;">
+                    <a href="数据分析/tableau/2.png" target="_blank" style="background:#f9faf7; min-height:300px;">
+                        <img src="数据分析/tableau/2.png" alt="Tableau仪表盘二" style="height:280px;object-fit:contain;" loading="lazy">
+                    </a>
+                    <div class="img-caption">商业仪表盘 · 分析维度</div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <p>© 2026 个人作品集 · Designed by 李茹汾 · Built with ❤️</p>
+</footer>
+
+<script>
+    /* ========== 🌗 深色模式切换 ========== */
+    (function() {
+        const toggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const stored = localStorage.getItem('theme');
+        if (stored === 'dark') { html.setAttribute('data-theme', 'dark'); toggle.textContent = '☀️'; }
+        else if (stored === 'light') { html.removeAttribute('data-theme'); toggle.textContent = '🌙'; }
+        else {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) { html.setAttribute('data-theme', 'dark'); toggle.textContent = '☀️'; }
+            else { html.removeAttribute('data-theme'); toggle.textContent = '🌙'; }
+        }
+        toggle.addEventListener('click', () => {
+            if (html.hasAttribute('data-theme')) {
+                html.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); toggle.textContent = '🌙';
+            } else {
+                html.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); toggle.textContent = '☀️';
+            }
+        });
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                if (e.matches) { html.setAttribute('data-theme', 'dark'); toggle.textContent = '☀️'; }
+                else { html.removeAttribute('data-theme'); toggle.textContent = '🌙'; }
+            }
+        });
+    })();
+
+    /* ========== 🏷️ Tab 切换 ========== */
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.project-card');
+                const scope = btn.closest('.tab-panel') || card;
+                // 只移除同级 Tab 按钮的 active
+                const siblingBtns = (btn.closest('.tab-nav') || card.querySelector(':scope > .tab-nav')).querySelectorAll('.tab-btn');
+                siblingBtns.forEach(b => b.classList.remove('active'));
+                // 只隐藏同级容器下的 tab-panel
+                (scope === card ? card : scope).querySelectorAll(':scope > .tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                card.querySelector('#' + btn.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+    });
+
+    /* ========== 📊 分析报告折叠 ========== */
+    function toggleAnalysis() {
+        const content = document.getElementById('analysisFull');
+        const toggle = document.getElementById('analysisToggle');
+        const isExpanded = content.classList.contains('expanded');
+        if (isExpanded) {
+            content.classList.remove('expanded');
+            content.style.maxHeight = '0';
+            toggle.classList.remove('open');
+            toggle.innerHTML = '📂 展开完整分析报告 <span class="arrow">▾</span>';
+        } else {
+            content.classList.add('expanded');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            toggle.classList.add('open');
+            toggle.innerHTML = '📂 收起完整分析报告 <span class="arrow">▴</span>';
+        }
+    }
+</script>
+</body>
+</html>
