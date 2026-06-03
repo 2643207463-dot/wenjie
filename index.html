@@ -100,9 +100,6 @@
         .nav-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; height: 58px; }
         .nav-brand { font-size: 18px; font-weight: 700; color: var(--primary); }
         .nav-actions { display: flex; align-items: center; gap: 16px; }
-        .nav-links { display: flex; gap: 6px; }
-        .nav-links a { padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 500; color: var(--text-secondary); transition: all 0.25s ease; }
-        .nav-links a:hover { color: var(--primary); background: var(--tag-bg); }
         .theme-toggle {
             width: 36px; height: 36px; border-radius: 50%;
             border: 1.5px solid var(--border); background: var(--bg-card);
@@ -285,6 +282,47 @@
         .btn-outline:hover { background: var(--primary); color: #fff; }
 
         /* ============================================================
+           🗺️ 右侧固定竖排导航
+           ============================================================ */
+        .side-nav {
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            z-index: 999; display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+        }
+        .side-nav a {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text-muted);
+            font-size: 12px; font-weight: 600; transition: all 0.3s ease;
+            padding: 6px 0;
+        }
+        .side-nav a .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--tab-inactive);
+            transition: all 0.3s ease; flex-shrink: 0;
+        }
+        .side-nav a .label {
+            text-align: right; line-height: 1.3; transition: color 0.3s ease;
+        }
+        .side-nav a:hover { color: var(--primary); }
+        .side-nav a:hover .dot { background: var(--primary); transform: scale(1.4); }
+        .side-nav a.active { color: var(--primary); }
+        .side-nav a.active .dot {
+            background: var(--primary-dark); box-shadow: 0 0 10px rgba(122,154,126,0.5); transform: scale(1.6);
+        }
+        /* 移动端：底部横排 */
+        @media (max-width: 768px) {
+            .side-nav {
+                position: fixed; right: auto; left: 0; bottom: 0; top: auto;
+                transform: none; flex-direction: row; justify-content: center;
+                gap: 12px; width: 100%; padding: 8px 0;
+                background: var(--glass-bg); backdrop-filter: blur(12px);
+                border-top: 1px solid var(--glass-border);
+            }
+            .side-nav a { flex-direction: column; gap: 2px; padding: 0; font-size: 10px; }
+            .side-nav a .label { text-align: center; }
+        }
+
+        /* ============================================================
            页脚
            ============================================================ */
         .site-footer { text-align: center; padding: 28px 24px; color: var(--text-muted); font-size: 13px; margin-top: 48px; border-top: 1px solid var(--divider); }
@@ -293,7 +331,6 @@
            响应式
            ============================================================ */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
             .hero-section h1 { font-size: 26px; }
             .project-card { padding: 24px 18px; }
             .image-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
@@ -309,12 +346,6 @@
     <div class="nav-wrapper">
         <div class="nav-brand">🌸 Portfolio</div>
         <div class="nav-actions">
-            <div class="nav-links">
-                <a href="#project1">慢友康</a>
-                <a href="#project2">视频剪辑</a>
-                <a href="#project3">品牌策划</a>
-                <a href="#project4">数据分析</a>
-            </div>
             <button class="theme-toggle" id="themeToggle" aria-label="切换深色模式" title="切换深色模式">🌙</button>
         </div>
     </div>
@@ -323,15 +354,26 @@
 <section class="hero-section">
     <div class="hero-avatar">👩‍💻</div>
     <h1>你好，我是李茹汾</h1>
-    <p class="hero-subtitle">网络与新媒体专业</p>
+    <p class="hero-subtitle">网络与新媒体专业 · 广州软件学院 · GPA 3.4/5</p>
     <p class="hero-subtitle">意向职位：产品经理实习生 · 数据分析 · 运营</p>
     <div class="hero-tags">
         <span>📐 产品设计</span>
         <span>📊 数据分析</span>
+        <span>📝 新媒体运营</span>
         <span>🎬 视频剪辑</span>
-        <span>📝 品牌策划</span>
+        <span>📈 品牌策划</span>
     </div>
 </section>
+
+
+    <!-- 右侧固定竖排导航 -->
+    <nav class="side-nav" id="sideNav">
+        <a href="#project1"><span class="dot"></span><span class="label">交互设计</span></a>
+        <a href="#project2"><span class="dot"></span><span class="label">内容运营</span></a>
+        <a href="#project3"><span class="dot"></span><span class="label">视频剪辑</span></a>
+        <a href="#project4"><span class="dot"></span><span class="label">品牌策划</span></a>
+        <a href="#project5"><span class="dot"></span><span class="label">数据分析</span></a>
+    </nav>
 
 <main class="page-main">
 
@@ -350,14 +392,24 @@
         <!-- ===== 慢友康 ===== -->
         <div class="tab-panel active" id="tab-mykk">
             <nav class="tab-nav">
-                <button class="tab-btn active" data-tab="tab-home">🏠 首页 & 健康服务</button>
-                <button class="tab-btn" data-tab="tab-login">🔑 登录</button>
+                <button class="tab-btn active" data-tab="tab-login">🔑 登录</button>
+                <button class="tab-btn" data-tab="tab-home">🏠 首页 & 健康服务</button>
                 <button class="tab-btn" data-tab="tab-message">💬 消息</button>
                 <button class="tab-btn" data-tab="tab-community">👥 社区</button>
                 <button class="tab-btn" data-tab="tab-settings">⚙️ 设置</button>
             </nav>
 
-            <div class="tab-panel active" id="tab-home">
+            <div class="tab-panel active" id="tab-login">
+                <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:16px;">慢友康支持的四种登录方式：</p>
+                <div class="image-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                    <div class="img-card"><a href="交互设计/慢友康/1.png" target="_blank"><img src="交互设计/慢友康/1.png" alt="账号密码登录" loading="lazy"></a><div class="img-caption">账号密码登录</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/2.png" target="_blank"><img src="交互设计/慢友康/2.png" alt="手机号登录" loading="lazy"></a><div class="img-caption">手机号登录</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/3.png" target="_blank"><img src="交互设计/慢友康/3.png" alt="微信登录" loading="lazy"></a><div class="img-caption">微信登录</div></div>
+                    <div class="img-card"><a href="交互设计/慢友康/4.png" target="_blank"><img src="交互设计/慢友康/4.png" alt="QQ登录" loading="lazy"></a><div class="img-caption">QQ登录</div></div>
+                </div>
+            </div>
+
+            <div class="tab-panel" id="tab-home">
                 <div class="image-grid">
                     <div class="img-card"><span class="main-badge">主功能</span><a href="交互设计/慢友康/1(1).png" target="_blank"><img src="交互设计/慢友康/1(1).png" alt="首页主页面" loading="lazy"></a><div class="img-caption">首页 · 主功能页</div></div>
                     <div class="img-card"><a href="交互设计/慢友康/5.png" target="_blank"><img src="交互设计/慢友康/5.png" alt="健康百科" loading="lazy"></a><div class="img-caption">健康百科</div></div>
@@ -372,16 +424,6 @@
                     <div class="img-card"><a href="交互设计/慢友康/14.png" target="_blank"><img src="交互设计/慢友康/14.png" alt="用药提醒" loading="lazy"></a><div class="img-caption">用药提醒</div></div>
                     <div class="img-card"><a href="交互设计/慢友康/15.png" target="_blank"><img src="交互设计/慢友康/15.png" alt="血压" loading="lazy"></a><div class="img-caption">血压</div></div>
                     <div class="img-card"><a href="交互设计/慢友康/16.png" target="_blank"><img src="交互设计/慢友康/16.png" alt="血糖" loading="lazy"></a><div class="img-caption">血糖</div></div>
-                </div>
-            </div>
-
-            <div class="tab-panel" id="tab-login">
-                <p style="font-size:13.5px;color:var(--text-muted);margin-bottom:16px;">慢友康支持的四种登录方式：</p>
-                <div class="image-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
-                    <div class="img-card"><a href="交互设计/慢友康/1.png" target="_blank"><img src="交互设计/慢友康/1.png" alt="账号密码登录" loading="lazy"></a><div class="img-caption">账号密码登录</div></div>
-                    <div class="img-card"><a href="交互设计/慢友康/2.png" target="_blank"><img src="交互设计/慢友康/2.png" alt="手机号登录" loading="lazy"></a><div class="img-caption">手机号登录</div></div>
-                    <div class="img-card"><a href="交互设计/慢友康/3.png" target="_blank"><img src="交互设计/慢友康/3.png" alt="微信登录" loading="lazy"></a><div class="img-caption">微信登录</div></div>
-                    <div class="img-card"><a href="交互设计/慢友康/4.png" target="_blank"><img src="交互设计/慢友康/4.png" alt="QQ登录" loading="lazy"></a><div class="img-caption">QQ登录</div></div>
                 </div>
             </div>
 
@@ -431,12 +473,56 @@
         </div>
     </section>
 
-    <!-- ========== 项目2：视频剪辑 ========== -->
+    <!-- ========== 项目2：内容运营 ========== -->
     <section id="project2" class="project-card">
+        <span class="project-tag">新媒体运营 / 内容创作</span>
+        <h2>校园公众号内容运营</h2>
+        <div class="project-meta">独立撰稿 · 素材拍摄 · 视觉排版 · 数据复盘</div>
+        <p>独立负责垂直赛道账号的内容全链路运营，累计阅读量超 12,000+，单篇最高阅读 6,280 次，核心文章转发率达 8%。熟练运用 PS 和秀米进行视觉策划与排版设计，持续通过数据复盘优化选题方向。</p>
+
+        <div class="image-grid" style="grid-template-columns: 1fr 1fr;">
+            <a href="https://mp.weixin.qq.com/s/Ewp0U8OSFkK0cyrBxr1qxw" target="_blank" class="article-card" style="display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1.5px solid var(--border-light);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;">
+                <div style="height:180px;overflow:hidden;background:#f5f5f0;display:flex;align-items:center;justify-content:center;">
+                    <img src="新媒体运营/【第一届“巨型”排球比赛开始报名！】/文章封面图.jpg" alt="排球比赛" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                </div>
+                <div style="padding:14px 16px;flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">第一届"巨型"排球比赛开始报名！</div>
+                </div>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/Ye9LoBqdc0AN_HOx74L23g" target="_blank" class="article-card" style="display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1.5px solid var(--border-light);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;">
+                <div style="height:180px;overflow:hidden;background:#f5f5f0;display:flex;align-items:center;justify-content:center;">
+                    <img src="新媒体运营/336家企业、1.5万多个岗位，活动现场有你吗？/文章封面图.jpg" alt="招聘会" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                </div>
+                <div style="padding:14px 16px;flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">336家企业、1.5万多个岗位，活动现场有你吗？</div>
+                </div>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/w5Vzq8Fc_0phqQRFz_XazA" target="_blank" class="article-card" style="display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1.5px solid var(--border-light);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;">
+                <div style="height:180px;overflow:hidden;background:#f5f5f0;display:flex;align-items:center;justify-content:center;">
+                    <img src="新媒体运营/直击！警报响起、浓烟滚滚，他们沉浸式体验……/封面.jpg" alt="消防演练" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                </div>
+                <div style="padding:14px 16px;flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">直击！警报响起、浓烟滚滚，他们沉浸式体验……</div>
+                </div>
+            </a>
+            <a href="https://mp.weixin.qq.com/s/gb7znpqqHCiwVVO_6qIivQ" target="_blank" class="article-card" style="display:flex;flex-direction:column;border-radius:12px;overflow:hidden;border:1.5px solid var(--border-light);transition:transform 0.25s,box-shadow 0.25s;text-decoration:none;color:inherit;">
+                <div style="height:180px;overflow:hidden;background:#f5f5f0;display:flex;align-items:center;justify-content:center;">
+                    <img src="新媒体运营/闭幕不落幕，运动不散场！看看哪些院系战斗力爆棚/封面.jpg" alt="运动会闭幕" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
+                </div>
+                <div style="padding:14px 16px;flex:1;">
+                    <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4;">闭幕不落幕，运动不散场！看看哪些院系战斗力爆棚</div>
+                </div>
+            </a>
+        </div>
+        <style>.article-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent)!important;}</style>
+    </section>
+
+    <!-- ========== 项目3：视频剪辑 ========== -->
+    <section id="project3" class="project-card">
         <span class="project-tag">视频剪辑 / 后期制作</span>
         <h2>短片剪辑与视觉后期作品集</h2>
         <div class="project-meta">项目里程碑计划制定 · 脚本分镜 · 素材剪辑 · 特效包装与音效合成</div>
-        <p>主导毕业短片及多场校园大型活动宣发视频的全流程管理与后期剪辑。具备独立完成从选题、素材筛选到最终高质量交付的全链路剪辑能力。</p>
+        <p>多次负责视频的全流程管理与后期剪辑。具备独立完成从选题、素材筛选到最终高质量交付的全链路剪辑能力。</p>
         <div class="video-grid">
             <div class="video-item">
                 <video controls preload="metadata">
@@ -445,23 +531,22 @@
                 </video>
             </div>
             <div class="video-item">
-                <div class="placeholder-box">
-                    <span class="placeholder-icon">🎬</span>
-                    <span class="placeholder-text">山河无恙 · 毕业短片</span>
-                    <a href="视频/山河无恙.avi" download="山河无恙.avi" style="margin-top:8px;font-size:13px;color:var(--primary);font-weight:600;text-decoration:underline;">📥 下载观看（AVI, 1.9GB）</a>
-                </div>
+                <video controls preload="metadata">
+                    <source src="视频/《坚持的力量》.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
             </div>
             <div class="video-item">
                 <video controls preload="metadata">
-                    <source src="视频/城市街道.mov" type="video/mp4">
+                    <source src="视频/《冬日暖阳》.mp4" type="video/mp4">
                     您的浏览器不支持视频播放。
                 </video>
             </div>
         </div>
     </section>
 
-    <!-- ========== 项目3：品牌策划 ========== -->
-    <section id="project3" class="project-card">
+    <!-- ========== 项目4：品牌策划 ========== -->
+    <section id="project4" class="project-card">
         <span class="project-tag">品牌营销 / 视觉设计</span>
         <h2>银鹭"你的随身饱盒"品牌策划案</h2>
         <div class="project-meta">市场调研 · 人群画像 · IP角色视觉设计 · 多渠道营销闭环</div>
@@ -485,8 +570,8 @@
         </div>
     </section>
 
-    <!-- ========== 项目4：数据分析 ========== -->
-    <section id="project4" class="project-card">
+    <!-- ========== 项目5：数据分析 ========== -->
+    <section id="project5" class="project-card">
         <span class="project-tag">数据分析 / Python · Tableau</span>
         <h2>TravelGo 旅游电商平台用户画像与商业仪表盘分析</h2>
         <div class="project-meta">工具栈：Python (Pandas, Matplotlib, Seaborn, Pyecharts) · Jupyter Notebook · Tableau · Excel</div>
@@ -675,6 +760,41 @@
             toggle.innerHTML = '📂 收起完整分析报告 <span class="arrow">▴</span>';
         }
     }
+
+    /* ========== 🗺️ 右侧导航 ========== */
+    (function() {
+        const nav = document.getElementById('sideNav');
+        if (!nav) return;
+        const links = nav.querySelectorAll('a');
+        const targets = Array.from(links).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+        // 点击平滑滚动
+        links.forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+
+        // 滚动时根据每个 section 相对于视口顶部的位置来判断
+        const viewH = window.innerHeight;
+        function updateActive() {
+            let currentIdx = 0;
+            let minDist = Infinity;
+            targets.forEach((t, i) => {
+                const rect = t.getBoundingClientRect();
+                // 计算 section 顶部离视口顶部的距离
+                const dist = Math.abs(rect.top - viewH * 0.35);
+                if (dist < minDist) { minDist = dist; currentIdx = i; }
+            });
+            links.forEach(a => a.classList.remove('active'));
+            links[currentIdx].classList.add('active');
+        }
+
+        window.addEventListener('scroll', updateActive, { passive: true });
+        updateActive(); // 初始化
+    })();
 </script>
 </body>
 </html>
