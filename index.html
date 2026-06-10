@@ -158,18 +158,16 @@
            ============================================================ */
         .tab-nav {
             display: flex; gap: 4px; margin-bottom: 24px;
-            border-bottom: 2px solid var(--border-light); padding-bottom: 0;
             overflow-x: auto; -webkit-overflow-scrolling: touch;
         }
         .tab-btn {
             padding: 9px 20px; border: none; background: none;
             font-size: 14px; font-weight: 600; color: var(--tab-inactive);
-            cursor: pointer; border-radius: 8px 8px 0 0;
+            cursor: pointer; border-radius: 9px;
             transition: all 0.25s ease; white-space: nowrap;
-            position: relative; bottom: -2px; border-bottom: 2px solid transparent;
         }
         .tab-btn:hover { color: var(--primary); }
-        .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .tab-btn.active { color: #fff; background: var(--primary); }
         .tab-panel { display: none; }
         .tab-panel.active { display: block; }
 
